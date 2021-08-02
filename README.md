@@ -91,6 +91,11 @@ Pipenv es una herramienta que crea y administra un entorno virtual para sus proy
       
 Y aparecerá el Cohete de Bienvenida que todo ha sido un éxito!!!
 
+En este punto, verá una instancia de una aplicación Django ejecutándose correctamente. puede detener el servidor (CTRL + C).
+
+## Parte 2. Registro de la aplicación user.
+
+
 
 
 
