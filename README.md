@@ -236,7 +236,7 @@ viewsets proporciona la implementación para operaciones CRUD de forma predeterm
             from django.contrib import admin
             from django.urls import path, include
             from rest_framework import routers
-            from Users import views
+            from user import views
 
             router = routers.DefaultRouter()
             router.register(r'users', views.UserView, 'Users')
@@ -259,9 +259,15 @@ Ahora puede realizar operaciones CRUD en el modelo User. La clase de enrutador l
 
             $ python manage.py runserver
             
- Ingresar http://localhost:8000/api/users en el navegador:
- 
- Ingresar http://localhost:8000/api/users/1 en el navegador:
+Ingresar http://localhost:8000/api/users en el navegador:
+
+- Se desplegará una página: Django REST framework, donde se podrá leer o agregar información del usuario.
+
+Ingresar http://localhost:8000/api/users/1 en el navegador:
+
+- Se desplegará una página: Django REST framework, donde se podrá actualizar o borrar la información.
+
+Listo!!, tenemos el api operativo para prestarle servicio al frontend (react - angular - vue - etc...)
  
 
 
