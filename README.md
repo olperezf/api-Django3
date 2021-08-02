@@ -166,6 +166,116 @@ Luego para el servidor control + c.
 
 ## Parte 3. Configuración del API
 
+Creación de una API utilizando el framework Django REST.
+
+1. Instale djangorestframework y django-cors-headers usando Pipenv:
+
+            $ pipenv install djangorestframework django-cors-headers
+            
+2. Agregar rest_framework y corsheaders a la lista de aplicaciones instaladas. Abra el archivo api/settings.py y actualice las secciones INSTALLED_APPS y MIDDLEWARE:
+
+            INSTALLED_APPS = [
+                'django.contrib.admin',
+                'django.contrib.auth',
+                'django.contrib.contenttypes',
+                'django.contrib.sessions',
+                'django.contrib.messages',
+                'django.contrib.staticfiles',
+                'corsheaders', <-- Aquí
+                'rest_framework', <-- Aquí
+                'user',
+            ]
+
+            MIDDLEWARE = [
+                'django.middleware.security.SecurityMiddleware',
+                'django.contrib.sessions.middleware.SessionMiddleware',
+                'django.middleware.common.CommonMiddleware',
+                'django.middleware.csrf.CsrfViewMiddleware',
+                'django.contrib.auth.middleware.AuthenticationMiddleware',
+                'django.contrib.messages.middleware.MessageMiddleware',
+                'django.middleware.clickjacking.XFrameOptionsMiddleware',
+                'corsheaders.middleware.CorsMiddleware', <-- Aquí
+            ]
+            
+3. Agregue estas líneas de código al final del archivo api / settings.py:
+
+            CORS_ORIGIN_WHITELIST = [
+                 'http://localhost:3000'
+            ]
+            
+django-cors-headers es una biblioteca de Python que evitará los errores que normalmente obtendría debido a las interacciones de dominios. En el código CORS_ORIGIN_WHITELIST, se incluyó localhost: 3000 en la lista, porque desea que la interfaz (que se servirá en ese puerto) de la aplicación interactúe con la API.
+
+4. Creando serializer, para convertir instancias de modelo a JSON para que la interfaz pueda funcionar con los datos recibidos. Cree un archivo api/serializers.py. Abra el archivo serializers.py y agregue el siguiente codigo:
+
+            from rest_framework import serializers
+            from .models import User 
+
+            class UserSerializer(serializers.ModelSerializer):
+                class Meta:              
+                    model = User
+                    fields = ('id', 'name', 'email', 'phone', 'active', 'created_at', 'updated_at')
+
+
+Este código especifica el modelo con el que vamos a trabajar y los campos que se convertirán a JSON.
+
+5. Creando la Vista, Deberá crear una clase UserView en el archivo user/views.py. Abra el archivo user/views.py, y agregue las siguientes líneas de código:
+
+            from django.shortcuts import render
+            from rest_framework import viewsets
+            from .serializers import UserSerializer
+            from .models import User
+
+            class UserView(viewsets.ModelViewSet):
+                serializer_class = UserSerializer
+                queryset = User.objects.all()
+
+viewsets proporciona la implementación para operaciones CRUD de forma predeterminada. Este código especifica serializer_class y queryset.
+
+6. Abra el archivo api/urls.py, y reemplace el contenido con las siguientes líneas de código:
+
+            from django.contrib import admin
+            from django.urls import path, include
+            from rest_framework import routers
+            from Users import views
+
+            router = routers.DefaultRouter()
+            router.register(r'users', views.UserView, 'Users')
+
+            urlpatterns = [
+                 path('admin/', admin.site.urls),
+                 path('api/', include(router.urls)),
+            ]  
+
+Este código especifica la ruta URL de la API. 
+
+Paso final que completa la construcción de la API.
+
+Ahora puede realizar operaciones CRUD en el modelo User. La clase de enrutador le permite realizar las siguientes consultas:
+
+- /users/: devuelve una lista de todos los elementos de User. Las operaciones CREATE y READ se pueden realizar aquí.
+- /users/id: devuelve un solo elemento User utilizando la clave principal de id. Las operaciones UPDATE y DELETE se pueden realizar aquí.
+
+7. Levantar el servidor:
+
+            $ python manage.py runserver
+            
+ Ingresar http://localhost:8000/api/users en el navegador:
+ 
+ Ingresar http://localhost:8000/api/users/1 en el navegador:
+ 
+ 
+
+
+
+
+Abra el archivo backend / urls.py con su editor de código y reemplace el contenido con las siguientes líneas de código:
+
+
+
+
+
+
+
 
 
 #
