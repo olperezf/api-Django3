@@ -263,19 +263,6 @@ Ahora puede realizar operaciones CRUD en el modelo User. La clase de enrutador l
  
  Ingresar http://localhost:8000/api/users/1 en el navegador:
  
- 
-
-
-
-
-Abra el archivo backend / urls.py con su editor de código y reemplace el contenido con las siguientes líneas de código:
-
-
-
-
-
-
-
 
 
 #
